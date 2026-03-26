@@ -1,24 +1,27 @@
 ﻿using MauiAppTempoAgora.Models;
 using MauiAppTempoAgora.Services;
+using Microsoft.Extensions.Configuration;
 
 namespace MauiAppTempoAgora
 {
     public partial class MainPage : ContentPage
     {
         int count = 0;
+        private readonly IDataService _dataService;
 
-        public MainPage()
+        public MainPage(IDataService dataService)
         {
             InitializeComponent();
+            _dataService = dataService;
         }
 
-        private async void Button_Clicked(object sender, EventArgs e)
+        private async void Button_Clicked_Previsao(object sender, EventArgs e)
         {
             try
             {
                 if (!string.IsNullOrWhiteSpace(txt_cidade.Text))
                 {
-                    Tempo? tempo = await DataService.GetPrevisao(txt_cidade.Text);
+                    Tempo? tempo = await _dataService.GetPrevisao(txt_cidade.Text);
 
                     if (tempo != null) 
                     {
@@ -44,6 +47,19 @@ namespace MauiAppTempoAgora
             catch (Exception ex)
             {
                 await DisplayAlertAsync("Ops", ex.Message, "OK");
+            }
+        }
+
+        private async void Button_Clicked_Localizacao(object sender, EventArgs e)
+        {
+            try
+            {
+
+            }
+            catch (Exception ex)
+            {
+
+                throw;
             }
         }
     }
